@@ -21,7 +21,7 @@ read admin_user
 echo "Installing file sharing..."
 apt install samba samba-common-bin -y
 smbpasswd -a $admin_user
-/usr/sbin/ groupadd lx_shares
+/usr/sbin/groupadd lx_shares
 /usr/sbin/usermod -aG lx_shares $admin_user
 mkdir -p /usr/local/lx_network/shares/show_files
 mkdir -p /usr/local/lx_network/shares/configs
