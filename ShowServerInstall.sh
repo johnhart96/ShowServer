@@ -5,33 +5,56 @@
 # Licence: GNU Public Licence
 # Repo: https://github.com/johnhart96/ShowServer
 
+clear
+echo "Show Server - Installer v1"
+echo "=========================="
+echo "This installer will install your basic network stack for your lighting network"
+echo "It asumes that you have already configured your networks configured and the 2nd one will be used for your lighting network"
+echo "If this is not the case, press CTRL+C to cancel the installer"
+echo "You will need to be running this installer as root not using sudo!"
+echo " "
+echo "Press enter to proceed"
+read
+
+
 # Base Packages
 echo "Installing base packages"
 apt update
 apt upgrade -y
 apt install sudo htop curl git zip unzip -y
 clear
-echo "What is your admin username?"
+echo "What is your admin username? (not root)"
 read admin_user
+echo "Adding $admin_user to sudo..."
 /usr/sbin/usermod -aG sudo $admin_user
+
 
 
 
 # Samba
 echo "Installing file sharing..."
 apt install samba samba-common-bin -y
+echo "You are about to be asked to enter your file sharing password"
+echo "Press enter to continue"
+read
 smbpasswd -a $admin_user
+echo "Creating the lx_shares group..."
 /usr/sbin/groupadd lx_shares
+echo "Adding $admin_user to the lx_shares group"
 /usr/sbin/usermod -aG lx_shares $admin_user
+echo "Creating share directories..."
 mkdir -p /usr/local/lx_network/shares/show_files
 mkdir -p /usr/local/lx_network/shares/configs
 mkdir -p /usr/local/lx_network/shares/services
+echo "Changing share ownership..."
 chown $admin_user:lx_shares /usr/local/lx_network/shares/show_files
 chown $admin_user:lx_shares /usr/local/lx_network/shares/configs
 chown $admin_user:lx_shares /usr/local/lx_network/shares/services
+echo "Setting share permissions..."
 chmod 770 /usr/local/lx_network/shares/show_files
 chmod 770 /usr/local/lx_network/shares/configs
 chmod 770 /usr/local/lx_network/shares/services
+echo "Configuring file shares..."
 echo "server min protocol = NT1" >> /etc/samba/smb.conf
 echo "lanman auth = yes" >> /etc/samba/smb.conf
 echo "ntlm auth = yes" >> /etc/samba/smb.conf
@@ -52,8 +75,11 @@ echo "path = /usr/local/lx_network/shares/services" >> /etc/samba/smb.conf
 echo "writeable = yes" >> /etc/samba/smb.conf
 echo "guest ok = yes" >> /etc/samba/smb.conf
 ln -n /etc/samba/smb.conf /usr/local/lx_network/shares/services/file_sharing.conf
+ln -n /etc/network/interfaces /usr/local/lx_network/shares/services/network_interfaces.conf
 chmod 777 /usr/local/lx_network/shares/services/file_sharing.conf
+sudo chmod 777 /usr/local/lx_network/shares/services/network_interfaces.conf
 systemctl restart smbd
+echo "Done installing file sharing"
 
 # NTP
 echo "Installing time service..."
@@ -61,6 +87,7 @@ apt-get install ntp -y
 ntpq -p
 ln -n /etc/ntp.conf /usr/local/lx_network/shares/services/time.conf
 chmod 777 /usr/local/lx_network/shares/services/time.conf
+echo "Done installing time service"
 
 # DHCP & DNS
 echo "Installing network address services..."
@@ -92,6 +119,7 @@ echo "$this_server $server_name $server_name.lx.local" >> /etc/hosts
 ln -n /etc/hosts /usr/local/lx_network/shares/services/names.conf
 chmod 777 /usr/local/lx_network/shares/services/names.conf
 systemctl restart dnsmasq
+echo "Done installing network address service"
 
 # Syslog
 echo "Installing logging service..."
@@ -105,3 +133,4 @@ echo "*.* ?remote-incoming-logs" >> /etc/rsyslog.conf
 ln -n /etc/rsyslog.conf /usr/local/lx_network/shares/services/logging.conf
 chmod 777 /usr/local/lx_network/shares/services/logging.conf
 systemctl restart rsyslog
+echo "Done installing logging service"
