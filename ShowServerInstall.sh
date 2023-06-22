@@ -102,7 +102,6 @@ rm -rf /etc/dnsmasq.conf
 echo "dhcp-range=$dhcp_range,12h" >> /etc/dnsmasq.conf
 echo "dhcp-option=option:ntp-server,$this_server" >> /etc/dnsmasq.conf
 echo "dhcp-option=option:dns-server,$this_server" >> /etc/dnsmasq.conf
-echo "dhcp-option=option:syslog-server,$this_server" >> /etc/dnsmasq.conf
 echo "dhcp-option=option:netmask,$dhcp_subnet" >> /etc/dnsmasq.conf
 echo "dhcp-leasefile=/usr/local/lx_network/dhcp_leases.txt" >> /etc/dnsmasq.conf
 echo "dhcp-authoritative" >> /etc/dnsmasq.conf
