@@ -27,3 +27,10 @@ This installer asumes that you have just installed a fresh copy of debian and co
  wget https://raw.githubusercontent.com/johnhart96/ShowServer/main/ShowServerInstall.sh 
  sudo bash ShowServerInstall.sh 
 ```
+
+## Scripts
+ShowServer includes a few scripts to automate common tasks. These are located in */usr/local/lx_network/bin*
+| Script      | Description                                                        |
+| ----------- | ------------------------------------------------------------------ |
+| useradd.sh  | Run this script to create a user & add it to the file shares       |
+| userrm.sh   | Remove a user                                                      |
