@@ -34,3 +34,4 @@ ShowServer includes a few scripts to automate common tasks. These are located in
 | ----------- | ------------------------------------------------------------------ |
 | useradd.sh  | Run this script to create a user & add it to the file shares       |
 | userrm.sh   | Remove a user                                                      |
+| shareadd.sh | Create a new shared drive                                          |

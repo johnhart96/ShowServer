@@ -149,7 +149,6 @@ if [ "$webmin_question" != "${webmin_question#[Yy]}" ] ;then
     wget -q -O- http://www.webmin.com/jcameron-key.asc | sudo apt-key add
     apt update
     apt install webmin -y
-    http://www.pacific.net.au/~magnecor/dnsmasq.wbm
 fi
 
 # User Scripts
@@ -159,4 +158,5 @@ chown root:lx_shares /usr/local/lx_network/bin
 chmod 770 /usr/local/lx_network/bin
 wget https://raw.githubusercontent.com/johnhart96/ShowServer/main/bin/useradd.sh -O /usr/local/lx_network/bin/useradd.sh
 wget https://raw.githubusercontent.com/johnhart96/ShowServer/main/bin/userrm.sh -O /usr/local/lx_network/bin/userrm.sh
+wget https://raw.githubusercontent.com/johnhart96/ShowServer/main/bin/shareadd.sh -O /usr/local/lx_network/bin/shareadd.sh
 chmod +x -R /usr/local/lx_network/bin/
