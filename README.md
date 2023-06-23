@@ -1,5 +1,5 @@
 # ShowServer
-Show server is a all in one installer for installing a basic network services stack on a small lightweight linux machine such as a Raspberry pi) that can serve the basic needs of an entertainment lighting network.
+Show server is a all in one installer for installing a basic network services stack on a small lightweight linux machine (such as a Raspberry pi) that can serve the basic needs of an entertainment lighting network.
 
 **The installer installs the following services:**
 * SMB file sharing for saving lighting console show files or device configurations
