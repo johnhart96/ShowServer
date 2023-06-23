@@ -28,7 +28,7 @@ read admin_user
 echo "Adding $admin_user to sudo..."
 /usr/sbin/usermod -aG sudo $admin_user
 echo "What would you like your internal domain to be? (lx.local):"
-read internal_domain
+read intenal_domain
 
 
 
