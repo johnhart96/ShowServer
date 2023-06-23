@@ -151,3 +151,11 @@ if [ "$webmin_question" != "${webmin_question#[Yy]}" ] ;then
     apt install webmin -y
     http://www.pacific.net.au/~magnecor/dnsmasq.wbm
 fi
+
+# User Scripts
+echo "Downloading user scripts..."
+mkdir /usr/local/lx_network/bin
+chown root:lx_shares /usr/local/lx_network/bin
+chmod 770 /usr/local/lx_network/bin
+wget https://raw.githubusercontent.com/johnhart96/ShowServer/main/bin/useradd.sh -O /usr/local/lx_network/bin/useradd.sh
+chmod +x -R /usr/local/lx_network/bin/
