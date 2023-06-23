@@ -92,35 +92,40 @@ chmod 777 /usr/local/lx_network/shares/services/time.conf
 echo "Done installing time service"
 
 # DHCP & DNS
-echo "Installing network address services..."
-apt install dnsmasq -y
-echo "What is your DHCP Range? (192.168.0.1,192.168.0.254):"
-read dhcp_range
-echo "What is your Subnet mask? (255.255.255.0):"
-read dhcp_subnet
-this_server=$(hostname  -I | cut -f2 -d' ')
-server_name=$(hostname)
-rm -rf /etc/dnsmasq.conf
-echo "dhcp-range=$dhcp_range,12h" >> /etc/dnsmasq.conf
-echo "dhcp-option=option:ntp-server,$this_server" >> /etc/dnsmasq.conf
-echo "dhcp-option=option:dns-server,$this_server" >> /etc/dnsmasq.conf
-echo "dhcp-option=option:netmask,$dhcp_subnet" >> /etc/dnsmasq.conf
-echo "dhcp-leasefile=/usr/local/lx_network/dhcp_leases.txt" >> /etc/dnsmasq.conf
-echo "dhcp-authoritative" >> /etc/dnsmasq.conf
-echo "domain-needed" >> /etc/dnsmasq.conf
-echo "bogus-priv" >> /etc/dnsmasq.conf
-echo "listen-address=$this_server" >> /etc/dnsmasq.conf
-echo "expand-hosts" >> /etc/dnsmasq.conf
-echo "domain=$intenal_domain" >> /etc/dnsmasq.conf
-ln -n /etc/dnsmasq.conf /usr/local/lx_network/shares/services/network_address.conf
-chmod 777 /usr/local/lx_network/shares/services/network_address.conf
-rm -rf /etc/hosts
-echo "127.0.0.1 localhost" >> /etc/hosts
-echo "$this_server $server_name $server_name.$internal_domain" >> /etc/hosts 
-ln -n /etc/hosts /usr/local/lx_network/shares/services/names.conf
-chmod 777 /usr/local/lx_network/shares/services/names.conf
-systemctl restart dnsmasq
-echo "Done installing network address service"
+echo "Do you want to install network address services? (Y,n):"
+read dhcp_question
+if [ "$dhcp_question" != "${dhcp_question#[Yy]}" ] ;then 
+    echo "Installing network address services..."
+    apt install dnsmasq -y
+    echo "What is your DHCP Range? (192.168.0.1,192.168.0.254):"
+    read dhcp_range
+    echo "What is your Subnet mask? (255.255.255.0):"
+    read dhcp_subnet
+    this_server=$(hostname  -I | cut -f2 -d' ')
+    server_name=$(hostname)
+    rm -rf /etc/dnsmasq.conf
+    echo "dhcp-range=$dhcp_range,12h" >> /etc/dnsmasq.conf
+    echo "dhcp-option=option:ntp-server,$this_server" >> /etc/dnsmasq.conf
+    echo "dhcp-option=option:dns-server,$this_server" >> /etc/dnsmasq.conf
+    echo "dhcp-option=option:netmask,$dhcp_subnet" >> /etc/dnsmasq.conf
+    echo "dhcp-leasefile=/usr/local/lx_network/dhcp_leases.txt" >> /etc/dnsmasq.conf
+    echo "dhcp-authoritative" >> /etc/dnsmasq.conf
+    echo "domain-needed" >> /etc/dnsmasq.conf
+    echo "bogus-priv" >> /etc/dnsmasq.conf
+    echo "listen-address=$this_server" >> /etc/dnsmasq.conf
+    echo "expand-hosts" >> /etc/dnsmasq.conf
+    echo "domain=$intenal_domain" >> /etc/dnsmasq.conf
+    ln -n /etc/dnsmasq.conf /usr/local/lx_network/shares/services/network_address.conf
+    chmod 777 /usr/local/lx_network/shares/services/network_address.conf
+    rm -rf /etc/hosts
+    echo "127.0.0.1 localhost" >> /etc/hosts
+    echo "$this_server $server_name $server_name.$internal_domain" >> /etc/hosts 
+    ln -n /etc/hosts /usr/local/lx_network/shares/services/names.conf
+    chmod 777 /usr/local/lx_network/shares/services/names.conf
+    systemctl restart dnsmasq
+    echo "Done installing network address service"
+fi
+
 
 # Syslog
 echo "Installing logging service..."
@@ -135,3 +140,14 @@ ln -n /etc/rsyslog.conf /usr/local/lx_network/shares/services/logging.conf
 chmod 777 /usr/local/lx_network/shares/services/logging.conf
 systemctl restart rsyslog
 echo "Done installing logging service"
+
+# Webmin
+echo "Would you like to install webmin? (y,n):"
+read webmin_question
+if [ "$webmin_question" != "${webmin_question#[Yy]}" ] ;then 
+    echo "deb http://download.webmin.com/download/repository sarge contrib" >> /etc/apt/sources.list
+    wget -q -O- http://www.webmin.com/jcameron-key.asc | sudo apt-key add
+    apt update
+    apt install webmin -y
+    http://www.pacific.net.au/~magnecor/dnsmasq.wbm
+fi
