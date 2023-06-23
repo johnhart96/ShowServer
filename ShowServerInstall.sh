@@ -27,6 +27,8 @@ echo "What is your admin username? (not root)"
 read admin_user
 echo "Adding $admin_user to sudo..."
 /usr/sbin/usermod -aG sudo $admin_user
+echo "What would you like your internal domain to be? (lx.local):"
+read internal_domain
 
 
 
@@ -109,12 +111,12 @@ echo "domain-needed" >> /etc/dnsmasq.conf
 echo "bogus-priv" >> /etc/dnsmasq.conf
 echo "listen-address=$this_server" >> /etc/dnsmasq.conf
 echo "expand-hosts" >> /etc/dnsmasq.conf
-echo "domain=lx.local" >> /etc/dnsmasq.conf
+echo "domain=$intenal_domain" >> /etc/dnsmasq.conf
 ln -n /etc/dnsmasq.conf /usr/local/lx_network/shares/services/network_address.conf
 chmod 777 /usr/local/lx_network/shares/services/network_address.conf
 rm -rf /etc/hosts
 echo "127.0.0.1 localhost" >> /etc/hosts
-echo "$this_server $server_name $server_name.lx.local" >> /etc/hosts 
+echo "$this_server $server_name $server_name.$internal_domain" >> /etc/hosts 
 ln -n /etc/hosts /usr/local/lx_network/shares/services/names.conf
 chmod 777 /usr/local/lx_network/shares/services/names.conf
 systemctl restart dnsmasq
