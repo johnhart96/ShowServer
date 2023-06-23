@@ -158,4 +158,5 @@ mkdir /usr/local/lx_network/bin
 chown root:lx_shares /usr/local/lx_network/bin
 chmod 770 /usr/local/lx_network/bin
 wget https://raw.githubusercontent.com/johnhart96/ShowServer/main/bin/useradd.sh -O /usr/local/lx_network/bin/useradd.sh
+wget https://raw.githubusercontent.com/johnhart96/ShowServer/main/bin/userrm.sh -O /usr/local/lx_network/bin/userrm.sh
 chmod +x -R /usr/local/lx_network/bin/
