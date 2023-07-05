@@ -21,7 +21,7 @@ read
 echo "Installing base packages"
 apt update
 apt upgrade -y
-apt install sudo htop curl git zip unzip -y
+apt install sudo htop curl git zip unzip avahi-utils -y
 clear
 echo "What is your admin username? (not root)"
 read admin_user
