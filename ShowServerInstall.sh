@@ -18,6 +18,7 @@ read
 
 
 # Base Packages
+sysctl -w net.ipv4.ip_forward=1
 echo "Installing base packages"
 apt update
 apt upgrade -y
